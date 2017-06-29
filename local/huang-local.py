@@ -5,10 +5,13 @@ model = te.loadAntimonyModel(te.sbmlToAntimony('huang-ferrell-96.xml'))
 model.conservedMoietyAnalysis = True
 print(model.steadyStateNamedArray())
 
+# need to pre-simulate to converge in COPASI's solution
+model.simulate(0,1000,5000)
+
 # the output variable is PP_K (which represents doubly phosphorylated MAPK)
 
 # parameter 2: r1b_k2 (original: MAPKKK activation.k1)
-fig1a_local = model.getuCC('K_PP_norm', 'r1b_k2')
+fig1a_local = model.getCC('PP_K', 'r1b_k2')
 print('Figure 1A: local value = {}'.format(fig1a_local))
 
 # parameter 5: r8a_a8 (original: binding MAPK—Pase and P-MAPK.k1)
